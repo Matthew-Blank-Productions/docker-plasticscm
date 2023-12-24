@@ -1,9 +1,8 @@
 # This installs plasticscm-server-netcore manually and not through the package manager.
 # This allows us to run 'plasticd' manually and not through systemd as this is not available inside Docker.
 
-# Ubunut 18.04 LTS
-FROM ubuntu:bionic
-LABEL maintainer="linard.hug@haw-hamburg.de"
+FROM ubuntu:latest
+LABEL maintainer="matthew@sygan.gd"
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
@@ -19,10 +18,10 @@ RUN apt-get update && apt-get install -y wget gnupg2 vim apt-transport-https \
 ARG VERSION
 
     # Register the plastic scm repositiory
-RUN wget -qO - "https://www.plasticscm.com/plasticrepo/stable/ubuntu/Release.key" | apt-key add - && \
+RUN wget -qO - "https://www.plasticscm.com/plasticrepo/stable/ubuntu/Release.key" | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/plastic.gpg \
     echo "deb https://www.plasticscm.com/plasticrepo/stable/ubuntu/ ./" > /etc/apt/sources.list.d/plasticscm-stable.list && \
     # Install plastic scm server manually
-    wget -qO "/plasticscm.tar.gz" "https://s3.eu-west-2.amazonaws.com/plastic-releases/releases/$VERSION/plasticscm/linux/PlasticSCM-$VERSION-linux-x64-server-netcore.tar.gz" && \
+    wget -qO "/plasticscm.tar.gz" "https://s3.eu-west-2.amazonaws.com/plastic-releases/releases/$VERSION/plasticscm/linux/PlasticSCM-$VERSION-linux-x64-server.tar.gz" && \
     mkdir -p "/opt/plasticscm5/" && \
     tar -xf "/plasticscm.tar.gz" -C "/opt/plasticscm5/" && \
     chmod u+x "/opt/plasticscm5/server/plasticd" && \
