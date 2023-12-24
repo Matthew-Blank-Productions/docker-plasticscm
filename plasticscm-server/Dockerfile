@@ -5,7 +5,6 @@ FROM ubuntu:latest
 LABEL maintainer="matthew@sygan.gd"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 # Update package list and install required tools
 RUN apt-get update && apt-get install -y wget gnupg2 vim apt-transport-https \
@@ -50,4 +49,5 @@ VOLUME /conf
 COPY "./jet.conf" "/opt/plasticscm5/server/jet.conf"
 
 COPY "./plastic.sh" "/plastic.sh"
+
 ENTRYPOINT [ "/plastic.sh" ]
