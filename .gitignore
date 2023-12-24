@@ -144,6 +144,6 @@ fabric.properties
 
 
 #Docker-Setup
-conf/
+conf/plasticd.lic
 db/
 logs/
